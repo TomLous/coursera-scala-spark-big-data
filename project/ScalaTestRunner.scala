@@ -148,7 +148,7 @@ object ScalaTestRunner {
 
   private def unpickleSummary(logError: (String) => Unit, runLog: String, summaryFileStr: String): GradingSummary = {
     try {
-      io.Source.fromFile(summaryFileStr).getLines.mkString("\n").unpickle[GradingSummary]
+      scala.io.Source.fromFile(summaryFileStr).getLines.mkString("\n").unpickle[GradingSummary]
     } catch {
       case e: Throwable =>
         val msg = "Error occured while reading ScalaTest summary file\n" + e.toString + "\n" + runLog
