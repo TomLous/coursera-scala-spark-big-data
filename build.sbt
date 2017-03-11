@@ -1,6 +1,6 @@
 name := course.value + "-" + assignment.value
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 scalacOptions ++= Seq("-deprecation")
 
@@ -17,7 +17,7 @@ commonSourcePackages += "common"
 
 assignmentsMap := {
   val depsSpark = Seq(
-    "org.apache.spark" %% "spark-core" % "1.2.1"
+    "org.apache.spark" %% "spark-core" % "2.0.0"
   )
   Map(
     "example" -> Assignment(
@@ -27,10 +27,25 @@ assignmentsMap := {
       partId = "vsJoj",
       maxScore = 10d,
       dependencies = depsSpark,
-      options = Map("Xmx"->"1540m", "grader-memory"->"2048"))
+      options = Map("Xmx"->"1540m", "grader-memory"->"2048")),
+    "wikipedia" -> Assignment(
+      packageName = "wikipedia",
+      key = "EH8wby4kEeawURILfHIqjw",
+      itemId = "QcWcs",
+      partId = "5komc",
+      maxScore = 10d,
+      styleScoreRatio = 0.0,
+      dependencies = depsSpark,
+      options = Map("Xmx"->"1540m", "grader-memory"->"2048", "totalTimeout" -> "900", "grader-cpu" -> "2")),
+    "stackoverflow" -> Assignment(
+      packageName = "stackoverflow",
+      key = "7ByAoS4kEea1yxIfJA1CUw",
+      itemId = "FWGnz",
+      partId = "OY5fJ",
+      maxScore = 10d,
+      styleScoreRatio = 0.0,
+      dependencies = depsSpark,
+      options = Map("Xmx"->"1540m", "grader-memory"->"2048", "totalTimeout" -> "900", "grader-cpu" -> "2"))
   )
 }
-
-// javaOptions in Test += "-Xmx4G"
-// fork in Test := true
 

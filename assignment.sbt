@@ -1,2 +1,2 @@
 course := "bigdata"
-assignment := "example"
+assignment := sys.props.getOrElse("assignment", default = "example")

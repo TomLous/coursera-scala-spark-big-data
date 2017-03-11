@@ -71,3 +71,6 @@ meta
 /src/test/resources/*/*.log
 /gcloud/derby.log
 /gcloud/metastore_db/
+
+
+/src/main/resources/wikipedia/wikipedia.dat
