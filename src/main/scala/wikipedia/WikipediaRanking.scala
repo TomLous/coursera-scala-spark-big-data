@@ -26,13 +26,25 @@ object WikipediaRanking {
     * Hint4: no need to search in the title :)
     */
 
-  private def pattern(lang: String) =
-  s"""(?i)\\b$lang\\b""".r
 
-  def occurrencesOfLang(lang: String, rdd: RDD[WikipediaArticle]): Int = {
-    val p = pattern(lang)
-    rdd.filter(a => p.findFirstIn(a.text).isDefined).count().toInt
-  }
+  private def textContains(needle: String, haystack: String): Boolean = haystack.split(" ").contains(needle)
+
+//  private def textContains(needle: String, haystack: String): Boolean =
+//  s"""(?i)\\b$needle\\b""".r.findFirstIn(haystack).isDefined
+
+
+  private def findLanguages(langs: List[String], article: WikipediaArticle) =
+    langs
+      .filter(textContains(_, article.text))
+
+  def occurrencesOfLang(lang: String, rdd: RDD[WikipediaArticle]): Int =
+    rdd
+      .filter(
+        article => textContains(lang, article.text)
+      )
+      .count()
+      .toInt
+
 
   /* (1) Use `occurrencesOfLang` to compute the ranking of the languages
    *     (`val langs`) by determining the number of Wikipedia articles that
@@ -46,14 +58,6 @@ object WikipediaRanking {
   langs
     .map(lang => (lang, occurrencesOfLang(lang, rdd)))
     .sortBy(-_._2)
-
-
-  private def findLanguages(langs: List[String], article: WikipediaArticle) =
-    langs
-      .filter(
-        pattern(_)
-          .findFirstIn(article.text)
-          .isDefined)
 
 
   /* Compute an inverted index of the set of articles, mapping each language
