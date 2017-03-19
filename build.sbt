@@ -17,7 +17,7 @@ commonSourcePackages += "common"
 
 assignmentsMap := {
   val depsSpark = Seq(
-    "org.apache.spark" %% "spark-core" % "2.0.0"
+    "org.apache.spark" %% "spark-core" % "2.1.0"
   )
   Map(
     "example" -> Assignment(
@@ -26,7 +26,7 @@ assignmentsMap := {
       itemId = "I6L8m",
       partId = "vsJoj",
       maxScore = 10d,
-      dependencies = Seq(),
+      dependencies = depsSpark,
       options = Map("Xmx"->"1540m", "grader-memory"->"2048")),
     "wikipedia" -> Assignment(
       packageName = "wikipedia",
@@ -50,10 +50,10 @@ assignmentsMap := {
       packageName = "timeusage",
       key = "mVk0fgQ0EeeGZQrYVAT1jg",
       itemId = "T19Ec",
-      partId = "y8PO8CUSTOM",
+      partId = "y8PO8",
       maxScore = 10d,
       styleScoreRatio = 0.0,
-      dependencies = depsSpark :+ ("org.apache.spark" %% "spark-sql" % "2.0.0"),
+      dependencies = depsSpark :+ ("org.apache.spark" %% "spark-sql" % "2.1.0"),
       options = Map("Xmx"->"1540m", "grader-memory"->"2048", "totalTimeout" -> "900", "grader-cpu" -> "2"))
   )
 }
