@@ -32,6 +32,14 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
   println(getClass.getResource("/stackoverflow/stackoverflow-100000.csv"))
   lazy val lines   = sc.textFile(getClass.getResource("/stackoverflow/stackoverflow-100000.csv").getPath)
   lazy val raw = testObject.rawPostings(lines)
+  lazy val grouped = testObject.groupedPostings(raw)
+  lazy val scored  = testObject.scoredPostings(grouped)
+  lazy val vectors = testObject.vectorPostings(scored)
+  //    assert(vectors.count() == 2121822, "Incorrect number of vectors: " + vectors.count())
+
+  lazy val means   = testObject.kmeans(testObject.sampleVectors(vectors), vectors, debug = true)
+  lazy val results = testObject.clusterResults(means, vectors)
+
 
   test("testObject can be instantiated") {
     val instantiatable = try {
@@ -44,9 +52,18 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
   }
 
   test("rawPostings"){
-    val rawList = raw.collect().toList
+//    val rawList = raw.collect().toList
+    println(raw.toDebugString)
 //    rawList.take(10).foreach(println)
-    assert(rawList.length == 100000)
+    assert(raw.count() === 100000)
+  }
+
+  test("groupedPostings"){
+//    val groupedList = grouped.collect().toList
+//    groupedList.take(10).foreach(println)
+
+    println(grouped.toDebugString)
+    assert(grouped.count() === 26075)
   }
 
 }
