@@ -1,6 +1,6 @@
 package stackoverflow
 
-import org.scalatest.{FunSuite, BeforeAndAfterAll}
+import org.scalatest.{BeforeAndAfterAll, FunSuite}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.apache.spark.SparkConf
@@ -8,6 +8,8 @@ import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.rdd.RDD
 import java.io.File
+
+import scala.io.Source
 
 @RunWith(classOf[JUnitRunner])
 class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
@@ -24,6 +26,13 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
     override def kmeansMaxIterations = 120
   }
 
+  lazy val conf: SparkConf = new SparkConf().setMaster("local[3]").setAppName("teststack")
+  lazy val sc: SparkContext = new SparkContext(conf)
+
+  println(getClass.getResource("/stackoverflow/stackoverflow-100000.csv"))
+  lazy val lines   = sc.textFile(getClass.getResource("/stackoverflow/stackoverflow-100000.csv").getPath)
+  lazy val raw = testObject.rawPostings(lines)
+
   test("testObject can be instantiated") {
     val instantiatable = try {
       testObject
@@ -34,5 +43,10 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
     assert(instantiatable, "Can't instantiate a StackOverflow object")
   }
 
+  test("rawPostings"){
+    val rawList = raw.collect().toList
+//    rawList.take(10).foreach(println)
+    assert(rawList.length == 100000)
+  }
 
 }
