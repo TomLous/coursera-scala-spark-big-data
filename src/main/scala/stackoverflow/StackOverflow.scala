@@ -97,7 +97,7 @@ class StackOverflow extends Serializable {
   /** Compute the maximum score for each posting */
   def scoredPostings(grouped: RDD[(Int, Iterable[(Posting, Posting)])]): RDD[(Posting, Int)] = {
 
-    def answerHighScore(as: Array[Posting]): Int = {
+    /*def answerHighScore(as: Array[Posting]): Int = {
       var highScore = 0
           var i = 0
           while (i < as.length) {
@@ -107,9 +107,14 @@ class StackOverflow extends Serializable {
                   i += 1
           }
       highScore
-    }
+    }*/
 
-    ???
+    def answerHighScore(as: Iterable[Posting]): Int = as.map(_.score).max
+
+    grouped
+      .flatMap(_._2)
+      .groupByKey()
+      .mapValues(answerHighScore)
   }
 
 

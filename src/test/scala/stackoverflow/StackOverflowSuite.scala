@@ -66,4 +66,11 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
     assert(grouped.count() === 26075)
   }
 
+  test("scoredPostings"){
+    //    val rawList = raw.collect().toList
+    println(scored.toDebugString)
+//    scored.take(10).foreach(println)
+    assert(scored.count() === 26075)
+  }
+
 }
