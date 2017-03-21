@@ -58,3 +58,9 @@ assignmentsMap := {
   )
 }
 
+testOptions in Test := Seq(
+  Tests.Filter(s => {
+//    println(s"$s = ${assignment.value}")
+    s.contains(assignment.value)
+  })
+)

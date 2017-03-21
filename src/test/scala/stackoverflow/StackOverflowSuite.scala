@@ -52,25 +52,28 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
   }
 
   test("rawPostings"){
-//    val rawList = raw.collect().toList
+    raw.take(10).foreach(println)
+
     println(raw.toDebugString)
-//    rawList.take(10).foreach(println)
+
     assert(raw.count() === 100000)
   }
 
   test("groupedPostings"){
-//    val groupedList = grouped.collect().toList
-//    groupedList.take(10).foreach(println)
+    grouped.take(10).foreach(println)
 
     println(grouped.toDebugString)
+
     assert(grouped.count() === 26075)
   }
 
   test("scoredPostings"){
-    //    val rawList = raw.collect().toList
+    scored.take(10).foreach(println)
+
     println(scored.toDebugString)
-//    scored.take(10).foreach(println)
+
     assert(scored.count() === 26075)
+    assert(scored.take(2)(1)._2 === 3)
   }
 
 }
