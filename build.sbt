@@ -53,7 +53,7 @@ assignmentsMap := {
       partId = "y8PO8",
       maxScore = 10d,
       styleScoreRatio = 0.0,
-      dependencies = depsSpark :+ ("org.apache.spark" %% "spark-sql" % "2.1.0"),
+      dependencies = depsSpark :+ ("org.apache.spark" %% "spark-sql" % "2.0.2"),
       options = Map("Xmx"->"1540m", "grader-memory"->"2048", "totalTimeout" -> "900", "grader-cpu" -> "2"))
   )
 }
