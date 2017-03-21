@@ -38,6 +38,7 @@ object StackOverflow extends StackOverflow {
 class StackOverflow extends Serializable {
 
   /** Languages */
+
   val langs =
     List(
       "JavaScript", "Java", "PHP", "Python", "C#", "C++", "Ruby", "CSS",
@@ -120,8 +121,22 @@ class StackOverflow extends Serializable {
 
   /** Compute the vectors for the kmeans */
   def vectorPostings(scored: RDD[(Posting, Int)]): RDD[(Int, Int)] = {
+
+    def firstLangInTag(tag:String):Option[Int] = {
+      val idx = langs.indexOf(tag)
+      if(idx >= 0) Some(idx) else None
+    }
+
+    for {
+      (posting,score) <- scored
+      tag <- posting.tags
+      idx <- firstLangInTag(tag)
+    } yield (idx * langSpread, score)
+
+
     /** Return optional index of first language that occurs in `tags`. */
-    def firstLangInTag(tag: Option[String], ls: List[String]): Option[Int] = {
+
+    /*def firstLangInTag(tag: Option[String], ls: List[String]): Option[Int] = {
       if (tag.isEmpty) None
       else if (ls.isEmpty) None
       else if (tag.get == ls.head) Some(0) // index: 0
@@ -132,9 +147,25 @@ class StackOverflow extends Serializable {
           case Some(i) => Some(i + 1) // index i in ls.tail => index i+1
         }
       }
-    }
+    }*/
 
-    ???
+    /*
+    // With original firstLangInTag
+    scored.flatMap{
+      case (posting, score) => firstLangInTag(posting.tags, langs).map(
+        idx => (idx * langSpread, score)
+      )
+    }
+    */
+
+    /*
+    // flatmap
+    scored.flatMap{
+      case (posting, score) => posting.tags.map(
+        lang => ((langs indexOf lang) * langSpread, score)
+      ).filter(_._1>=0)
+    }
+    */
   }
 
 

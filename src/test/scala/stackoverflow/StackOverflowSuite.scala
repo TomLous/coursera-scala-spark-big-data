@@ -76,4 +76,14 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
     assert(scored.take(2)(1)._2 === 3)
   }
 
+  test("vectorPostings"){
+    vectors.take(10).foreach(println)
+
+    println(vectors.toDebugString)
+
+    assert(vectors.count() === 26075)
+    assert(vectors.take(2)(1)._2 === 3)
+  }
+
+
 }
