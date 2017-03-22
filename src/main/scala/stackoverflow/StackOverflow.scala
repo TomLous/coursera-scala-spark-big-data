@@ -117,7 +117,7 @@ class StackOverflow extends Serializable {
     }
 
     for {
-      (posting, score) <- scored
+      (posting, score) <- scored // generates a `withFilter RDD` warning. See http://stackoverflow.com/questions/28048586/warning-while-using-rdd-in-for-comprehension
       tag <- posting.tags
       idx <- firstLangInTag(tag)
     } yield (idx * langSpread, score)
