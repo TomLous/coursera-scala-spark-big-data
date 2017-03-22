@@ -116,12 +116,14 @@ class StackOverflow extends Serializable {
       if (idx >= 0) Some(idx) else None
     }
 
-    for {
+    val vectors = for {
       (posting, score) <- scored // generates a `withFilter RDD` warning. See http://stackoverflow.com/questions/28048586/warning-while-using-rdd-in-for-comprehension
       tag <- posting.tags
       idx <- firstLangInTag(tag)
     } yield (idx * langSpread, score)
 
+
+    vectors.persist()
   }
 
 
@@ -305,7 +307,7 @@ class StackOverflow extends Serializable {
 
       val middle = clusterSize / 2 // rounds down 3/2 = 1 4/2 = 2 5/2 =2
 
-      val medianScore: Int = if(clusterSize % 2 == 0) (sortedScores(middle-1) + sortedScores(middle+1)) / 2 else sortedScores(middle)
+      val medianScore: Int = if(clusterSize % 2 == 0 && clusterSize>=3) (sortedScores(middle-1) + sortedScores(middle)) / 2 else sortedScores(middle)
 
 
       (langLabel, langPercent, clusterSize, medianScore)
