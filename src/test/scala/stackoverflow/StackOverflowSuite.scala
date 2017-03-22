@@ -86,12 +86,14 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
   }
 
   test("kmeans"){
-    means.foreach(println)
+    println("K-means: " + means.mkString(" | "))
+    assert(means(0) === (1,0))
+  }
 
-//    println(means.toDebugString)
-
-//    assert(means.count() === 26075)
-//    assert(means.take(2)(1)._2 === 3)
+  test("results"){
+    results(0)
+    testObject.printResults(results)
+    assert(results(0) ===  ("Java", 100, 1361, 0))
   }
 
 }

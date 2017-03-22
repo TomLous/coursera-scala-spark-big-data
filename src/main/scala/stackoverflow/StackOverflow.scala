@@ -286,10 +286,22 @@ class StackOverflow extends Serializable {
     val closestGrouped = closest.groupByKey()
 
     val median = closestGrouped.mapValues { vs =>
-      val langLabel: String = ??? // most common language in the cluster
-    val langPercent: Double = ??? // percent of the questions in the most common language
-    val clusterSize: Int = ???
-      val medianScore: Int = ???
+
+      val grouped: Map[Int, Int] = vs
+        .map(_._1 / langSpread) // recomute original index by dividing by the langSpread
+        .groupBy(identity) // group by the index
+        .mapValues(_.size) // get sizes
+
+      val maxLangIndex = grouped.maxBy(_._2)._1 // get maximum tuple based on size of the group
+
+      // most common language in the cluster
+      val langLabel: String = langs(maxLangIndex)
+
+      val langPercent: Double = (grouped(maxLangIndex) / vs.size.toDouble) * 100 // percent of the questions in the most common language
+
+      val clusterSize: Int = vs.size
+
+      val medianScore: Int = vs.map(_._2).sum / vs.size
 
       (langLabel, langPercent, clusterSize, medianScore)
     }
