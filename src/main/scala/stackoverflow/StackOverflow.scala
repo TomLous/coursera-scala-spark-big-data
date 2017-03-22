@@ -134,9 +134,9 @@ class StackOverflow extends Serializable {
     } yield (idx * langSpread, score)
 
 
+    /*
     /** Return optional index of first language that occurs in `tags`. */
-
-    /*def firstLangInTag(tag: Option[String], ls: List[String]): Option[Int] = {
+    def firstLangInTag(tag: Option[String], ls: List[String]): Option[Int] = {
       if (tag.isEmpty) None
       else if (ls.isEmpty) None
       else if (tag.get == ls.head) Some(0) // index: 0
@@ -221,6 +221,18 @@ class StackOverflow extends Serializable {
   /** Main kmeans computation */
   @tailrec final def kmeans(means: Array[(Int, Int)], vectors: RDD[(Int, Int)], iter: Int = 1, debug: Boolean = false): Array[(Int, Int)] = {
     val newMeans = means.clone() // you need to compute newMeans
+
+    vectors
+      .map(
+        vector => (findClosest(vector, means), vector)
+      )
+      .groupByKey()
+      .mapValues(averageVectors)
+      .collect()
+      .foreach(pair => {
+        newMeans.update(pair._1, pair._2)
+      })
+
 
     // TODO: Fill in the newMeans array
     val distance = euclideanDistance(means, newMeans)

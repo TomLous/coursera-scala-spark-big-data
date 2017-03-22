@@ -20,8 +20,8 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
       List(
         "JavaScript", "Java", "PHP", "Python", "C#", "C++", "Ruby", "CSS",
         "Objective-C", "Perl", "Scala", "Haskell", "MATLAB", "Clojure", "Groovy")
-    override def langSpread = 50000
-    override def kmeansKernels = 45
+    override def langSpread = 1
+    override def kmeansKernels = 15
     override def kmeansEta: Double = 20.0D
     override def kmeansMaxIterations = 120
   }
@@ -29,7 +29,7 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
   lazy val conf: SparkConf = new SparkConf().setMaster("local[3]").setAppName("teststack")
   lazy val sc: SparkContext = new SparkContext(conf)
 
-  println(getClass.getResource("/stackoverflow/stackoverflow-100000.csv"))
+//  println(getClass.getResource("/stackoverflow/stackoverflow-100000.csv"))
   lazy val lines   = sc.textFile(getClass.getResource("/stackoverflow/stackoverflow-100000.csv").getPath)
   lazy val raw = testObject.rawPostings(lines)
   lazy val grouped = testObject.groupedPostings(raw)
@@ -82,8 +82,16 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
     println(vectors.toDebugString)
 
     assert(vectors.count() === 26075)
-    assert(vectors.take(2)(1)._2 === 3)
+    assert(vectors.take(2)(0)._1 === 4 * testObject.langSpread)
   }
 
+  test("kmeans"){
+    means.foreach(println)
+
+//    println(means.toDebugString)
+
+//    assert(means.count() === 26075)
+//    assert(means.take(2)(1)._2 === 3)
+  }
 
 }
