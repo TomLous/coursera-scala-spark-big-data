@@ -297,11 +297,16 @@ class StackOverflow extends Serializable {
       // most common language in the cluster
       val langLabel: String = langs(maxLangIndex)
 
-      val langPercent: Double = (grouped(maxLangIndex) / vs.size.toDouble) * 100 // percent of the questions in the most common language
+      val langPercent: Double = grouped(maxLangIndex) * 100.0d / vs.size // percent of the questions in the most common language
 
       val clusterSize: Int = vs.size
 
-      val medianScore: Int = vs.map(_._2).sum / vs.size
+      val sortedScores = vs.map(_._2).toList.sorted
+
+      val middle = clusterSize / 2 // rounds down 3/2 = 1 4/2 = 2 5/2 =2
+
+      val medianScore: Int = if(clusterSize % 2 == 0) (sortedScores(middle-1) + sortedScores(middle+1)) / 2 else sortedScores(middle)
+
 
       (langLabel, langPercent, clusterSize, medianScore)
     }
