@@ -49,13 +49,18 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
     assert(testSchema.fields(1).dataType === DoubleType)
   }
 
+  test("row"){
+    val testRow = timeUsage.row(List("fieldA", "0.3", "1"))
+
+    assert(testRow(0).getClass.getName === "java.lang.String")
+    assert(testRow(1).getClass.getName === "java.lang.Double")
+    assert(testRow(2).getClass.getName === "java.lang.Double")
+  }
+
   test("read") {
-    columns.foreach(println)
-    //    raw.take(10).foreach(println)
-    //
-    //    println(raw.toDebugString)
-    //
-    //    assert(raw.count() === 100000)
+    assert(columns.size === 455)
+    assert(initDf.count === 10000-1)
+    initDf.take(10).foreach(println)
   }
 
 }
