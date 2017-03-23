@@ -26,7 +26,7 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
     override def kmeansMaxIterations = 120
   }
 
-  lazy val conf: SparkConf = new SparkConf().setMaster("local[3]").setAppName("teststack")
+  lazy val conf: SparkConf = new SparkConf().setMaster("local[3]").setAppName("stackoverflow-test")
   lazy val sc: SparkContext = new SparkContext(conf)
 
 //  println(getClass.getResource("/stackoverflow/stackoverflow-100000.csv"))
