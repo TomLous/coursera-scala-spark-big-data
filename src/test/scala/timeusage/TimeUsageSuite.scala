@@ -63,4 +63,11 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
     initDf.take(10).foreach(println)
   }
 
+  test("classifiedColumns") {
+    println(primaryNeedsColumns)
+    println(workColumns)
+    println(otherColumns)
+//    , workColumns, otherColumns
+  }
+
 }
