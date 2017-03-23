@@ -60,7 +60,7 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
   test("read") {
     assert(columns.size === 455)
     assert(initDf.count === 10000-1)
-    initDf.take(10).foreach(println)
+    initDf.show()
   }
 
   test("classifiedColumns") {
@@ -78,6 +78,10 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
     assert(oC.contains("t020101"))
     assert(oC.contains("t180699"))
 
+  }
+
+  test("timeUsageSummary"){
+    summaryDf.show()
   }
 
 }
