@@ -64,10 +64,20 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
   }
 
   test("classifiedColumns") {
-    println(primaryNeedsColumns)
-    println(workColumns)
-    println(otherColumns)
-//    , workColumns, otherColumns
+    val pnC = primaryNeedsColumns.map(_.toString)
+    val wC = workColumns.map(_.toString)
+    val oC = otherColumns.map(_.toString)
+
+
+    assert(pnC.contains("t010199"))
+    assert(pnC.contains("t030501"))
+    assert(pnC.contains("t110101"))
+    assert(pnC.contains("t180382"))
+    assert(wC.contains("t050103"))
+    assert(wC.contains("t180589"))
+    assert(oC.contains("t020101"))
+    assert(oC.contains("t180699"))
+
   }
 
 }
