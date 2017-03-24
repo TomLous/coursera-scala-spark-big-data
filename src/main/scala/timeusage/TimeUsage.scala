@@ -108,10 +108,10 @@ object TimeUsage {
           }
           .sortBy(_._1)
           .headOption match {
-            case Some(tuple) => tuple :: acc
-            case None => acc
-          }
+          case Some(tuple) => tuple :: acc
+          case None => acc
         }
+      }
       )
       .groupBy(_._1)
       .mapValues(_.map(_._2))
@@ -157,13 +157,40 @@ object TimeUsage {
                         otherColumns: List[Column],
                         df: DataFrame
                       ): DataFrame = {
-    val workingStatusProjection: Column = ???
-    val sexProjection: Column = ???
-    val ageProjection: Column = ???
+    val workingStatusProjection: Column =
+      when($"telfs" >= 1 && $"telfs" < 3, "working")
+        .otherwise("not working")
+        .as("working")
 
-    val primaryNeedsProjection: Column = ???
-    val workProjection: Column = ???
-    val otherProjection: Column = ???
+    val sexProjection: Column =
+      when($"tesex" === 1, "male")
+        .otherwise("female")
+        .as("sex")
+
+    val ageProjection: Column =
+      when($"teage".between(15, 22), "young")
+        .when($"teage".between(23, 55), "active")
+        .otherwise("elder")
+        .as("age")
+
+    val primaryNeedsProjection: Column =
+      primaryNeedsColumns
+        .reduce(_ + _)
+        .divide(60)
+        .as("primaryNeeds")
+
+    val workProjection: Column =
+      workColumns
+        .reduce(_ + _)
+        .divide(60)
+        .as("work")
+
+    val otherProjection: Column =
+      otherColumns
+        .reduce(_ + _)
+        .divide(60)
+        .as("other")
+
     df
       .select(workingStatusProjection, sexProjection, ageProjection, primaryNeedsProjection, workProjection, otherProjection)
       .where($"telfs" <= 4) // Discard people who are not in labor force
