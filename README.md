@@ -12,4 +12,7 @@ Then
 `submit [username/email] [password]`
 
 
+#Completed 10/10 100%
 
+YES!
+https://www.coursera.org/account/accomplishments/certificate/EK8FHGVKFLG9
