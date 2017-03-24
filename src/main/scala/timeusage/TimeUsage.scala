@@ -248,7 +248,7 @@ object TimeUsage {
     *                           cast them at the same time.
     */
   def timeUsageSummaryTyped(timeUsageSummaryDf: DataFrame): Dataset[TimeUsageRow] =
-    ???
+    timeUsageSummaryDf.as[TimeUsageRow] // The entire act of casting seems a bit moot, since the data frame has typed columns. Maybe I'm missing something, but it compiles so ¯\_(ツ)_/¯
 
   /**
     * @return Same as `timeUsageGrouped`, but using the typed API when possible

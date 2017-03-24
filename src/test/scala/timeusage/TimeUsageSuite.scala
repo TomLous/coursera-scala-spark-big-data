@@ -30,6 +30,8 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
   lazy val summaryDf:DataFrame = timeUsage.timeUsageSummary(primaryNeedsColumns, workColumns, otherColumns, initDf)
   lazy val finalDf:DataFrame = timeUsage.timeUsageGrouped(summaryDf)
 
+  lazy val sqlDf = timeUsage.timeUsageGroupedSql(summaryDf)
+  lazy val summaryDs = timeUsage.timeUsageSummaryTyped(summaryDf)
 
 
 //  lazy val lines = spark.read.csv(getClass.getResource("/timeusage/atussum-10000.csv").getPath)
@@ -94,17 +96,19 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
   }
 
   test("timeUsageGroupedSql"){
-    val sqlDf =  timeUsage.timeUsageGroupedSql(summaryDf)
     assert(sqlDf.count === 2*2*3)
     assert(sqlDf.head.getDouble(3) === 12.3)
     sqlDf.show()
   }
 
   test("timeUsageSummaryTyped"){
-
+    assert(summaryDs.head.getClass.getName === "timeusage.TimeUsageRow")
+    assert(summaryDs.head.other === 8.75)
+    assert(summaryDs.count === 6872)
+    summaryDs.show()
   }
 
   test("timeUsageGroupedTyped"){
-
+//    timeUsage.timeUsageGroupedTyped()
   }
 }
