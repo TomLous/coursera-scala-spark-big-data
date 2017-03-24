@@ -92,4 +92,16 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
     assert(finalDf.head.getDouble(3) === 12.3)
     finalDf.show()
   }
+
+  test("timeUsageGroupedSqlQuery"){
+
+  }
+
+  test("timeUsageSummaryTyped"){
+
+  }
+
+  test("timeUsageGroupedTyped"){
+
+  }
 }
