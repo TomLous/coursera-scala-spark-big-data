@@ -158,18 +158,18 @@ object TimeUsage {
                         df: DataFrame
                       ): DataFrame = {
     val workingStatusProjection: Column =
-      when($"telfs" >= 1 && $"telfs" < 3, "working")
+      when('telfs >= 1.0 && 'telfs < 3.0, "working")
         .otherwise("not working")
         .as("working")
 
     val sexProjection: Column =
-      when($"tesex" === 1, "male")
+      when('tesex === 1.0, "male")
         .otherwise("female")
         .as("sex")
 
     val ageProjection: Column =
-      when($"teage".between(15, 22), "young")
-        .when($"teage".between(23, 55), "active")
+      when('teage.between(15.0, 22.0), "young")
+        .when('teage.between(23.0, 55.0), "active")
         .otherwise("elder")
         .as("age")
 
@@ -193,7 +193,7 @@ object TimeUsage {
 
     df
       .select(workingStatusProjection, sexProjection, ageProjection, primaryNeedsProjection, workProjection, otherProjection)
-      .where($"telfs" <= 4) // Discard people who are not in labor force
+      .where('telfs <= 4.0) // Discard people who are not in labor force
   }
 
   /** @return the average daily time (in hours) spent in primary needs, working or leisure, grouped by the different
@@ -214,7 +214,7 @@ object TimeUsage {
     *               Finally, the resulting DataFrame should be sorted by working status, sex and age.
     */
   def timeUsageGrouped(summed: DataFrame): DataFrame = {
-    ???
+    summed.select('working)
   }
 
   /**

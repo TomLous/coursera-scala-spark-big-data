@@ -86,4 +86,8 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
     summaryDf.show()
   }
 
+
+  test("timeUsageGrouped"){
+    finalDf.show()
+  }
 }
