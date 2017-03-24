@@ -93,8 +93,11 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
     finalDf.show()
   }
 
-  test("timeUsageGroupedSqlQuery"){
-
+  test("timeUsageGroupedSql"){
+    val sqlDf =  timeUsage.timeUsageGroupedSql(summaryDf)
+    assert(sqlDf.count === 2*2*3)
+    assert(sqlDf.head.getDouble(3) === 12.3)
+    sqlDf.show()
   }
 
   test("timeUsageSummaryTyped"){
