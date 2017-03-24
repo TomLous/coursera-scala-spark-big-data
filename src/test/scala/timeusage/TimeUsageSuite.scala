@@ -88,6 +88,8 @@ class TimeUsageSuite extends FunSuite with BeforeAndAfterAll {
 
 
   test("timeUsageGrouped"){
+    assert(finalDf.count === 2*2*3)
+    assert(finalDf.head.getDouble(3) === 12.3)
     finalDf.show()
   }
 }
